@@ -1,4 +1,4 @@
-var rs = require('fs');
+var fs = require('fs');
 console.log(1);
-var data = rs.readFileSync('data.txt',{encoding:'utf8'});
+var data = fs.readFileSync('data.txt',{encoding:'utf8'});
 console.log(data);
