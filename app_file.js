@@ -4,6 +4,23 @@ var express = require('express');
 // body-parser 모듈을 불러온다.
 var bodyParser = require('body-parser');
 
+// 파일 업로드를 가능하도록 해주는 모듈
+var multer = require('multer');
+
+var _storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'uploads/')
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.originalname)
+  }
+});
+
+var upload = multer({storage:_storage});
+
+// 업로드를 받을 수 있는 미들웨어를 리턴해준다.(데스티네이션:목적지)
+// var upload = multer({ storage: 'uploads/' })
+
 // file system을 제어할 수 있는 모듈
 var fs = require('fs');
 
@@ -13,6 +30,8 @@ var app = express();
 // body-parser를 사용한다.
 app.use(bodyParser.urlencoded({ extended: false }));
 
+app.use('/user', express.static('uploads'));
+
 // html 코드를 이쁘게 해준다.
 app.locals.pretty = true;
 
@@ -21,6 +40,16 @@ app.set('views', './views_file');
 
 // 나는 jade를 쓰겠다.
 app.set('view engine', 'jade');
+
+app.get('/upload', function(req, res){
+  res.render('upload');
+});
+
+// 파일이 포함되어 있다면 req 객체에 파일(프로퍼티)을 포함한다.
+app.post('/upload', upload.single('userfile'), function(req, res){
+  console.log(req.file);
+  res.send('Uploaded' + req.file.filename);
+});
 
 // 글쓰기 페이지 - 라우팅(GET)
 app.get('/topic/new', function(req, res){
