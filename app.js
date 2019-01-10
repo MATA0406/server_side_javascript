@@ -16,6 +16,7 @@ app.set('views', './views');
 
 app.use(express.static('public'));
 
+// POST로 요청을 보낸 데이터를 받는다
 app.use(bodyParser.urlencoded({extended: false}));
 
 // html 코드를 이쁘게 해준다.
@@ -25,6 +26,7 @@ app.get('/form', function(req, res){
   res.render('form')
 });
 
+// GET
 app.get('/form_receiver', function(req, res){
   var title = req.query.title;
   var description = req.query.description;
@@ -32,6 +34,7 @@ app.get('/form_receiver', function(req, res){
   res.send(title + ', ' + description);
 });
 
+// POST
 app.post('/form_receiver', function(req, res){
   var title = req.body.title;
   var description = req.body.description;
@@ -39,6 +42,7 @@ app.post('/form_receiver', function(req, res){
   res.send(title + ', ' + description);
 });
 
+// 세멘틱으로 받는다
 app.get('/topic/:id/:mode', function(req, res){
   res.send(req.params.id + ', ' + req.params.mode);
 });
@@ -59,7 +63,6 @@ app.get('/topic/:id', function(req, res){
   `
   res.send(output);
 });
-
 
 // template으로 요청이 들어오면 render를 이용해 views 디렉토리의 temp를 실행시킨다.
 // 두번째 인자는 변수를 전달해준다.
