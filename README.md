@@ -15,3 +15,5 @@ javascript와 node.js를 이용하여 웹어플리케이션을 만드는 학습
 5. 동기/비동기(fs를 이용한 동기/비동기 학습)
 6. Express 도입(웹 프레임워크) - npm install express --save
  => 라우터라고하며(Java의 Servlet같은 존재)
+7. body-parser 모듈(POST로 전송한 데이터를 서버에서 전달받을 수 있게 해주는 모듈)
+8. Path를 배열로 정의할 수 있다.
