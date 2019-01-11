@@ -23,8 +23,34 @@ conn.connect();
 //   }
 // });
 
-var sql = 'INSERT INTO topic (title, description, author) values(?, ?, ?)';
-var params = ['Supervisor', 'Watcher', 'graphittie'];
+// var sql = 'INSERT INTO topic (title, description, author) values(?, ?, ?)';
+// var params = ['Supervisor', 'Watcher', 'graphittie'];
+//
+// // sql에 ?를 사용하면 query의 두번째 인자에 parameter를 넣어준다.(배열로!!)
+// conn.query(sql, params, function(err, rows, fields){
+//   if(err){
+//     console.log(err);
+//   }
+//   else{
+//     console.log('rows :: ', rows);
+//   }
+// });
+
+// var sql = 'UPDATE topic SET title=?, author=? WHERE id=?';
+// var params = ['NPM', 'leezche', 1];
+//
+// // sql에 ?를 사용하면 query의 두번째 인자에 parameter를 넣어준다.(배열로!!)
+// conn.query(sql, params, function(err, rows, fields){
+//   if(err){
+//     console.log(err);
+//   }
+//   else{
+//     console.log('rows :: ', rows);
+//   }
+// });
+
+var sql = 'DELETE FROM topic WHERE id=?';
+var params = [1];
 
 // sql에 ?를 사용하면 query의 두번째 인자에 parameter를 넣어준다.(배열로!!)
 conn.query(sql, params, function(err, rows, fields){
