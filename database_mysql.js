@@ -9,20 +9,30 @@ var conn = mysql.createConnection({
 // 연결
 conn.connect();
 
-// connection.query('SELECT 1 + 1 AS solution', function (error, results, fields) {
-//   if (error) throw error;
-//   console.log('The solution is: ', results[0].solution);
+// insert
+// var sql = 'SELECT * FROM topic';
+//
+// conn.query(sql, function(err, rows, fields){
+//   if(err){
+//     console.log(err);
+//   }
+//   else {
+//     for(var i=0; i<rows.length; i++){
+//       console.log(rows[i].author);
+//     }
+//   }
 // });
 
-var sql = 'SELECT * FROM topic';
+var sql = 'INSERT INTO topic (title, description, author) values(?, ?, ?)';
+var params = ['Supervisor', 'Watcher', 'graphittie'];
 
-conn.query(sql, function(err, rows, fields){
+// sql에 ?를 사용하면 query의 두번째 인자에 parameter를 넣어준다.(배열로!!)
+conn.query(sql, params, function(err, rows, fields){
   if(err){
     console.log(err);
   }
-  else {
-    console.log('rows ::', rows);
-    console.log('fields ::', fields);
+  else{
+    console.log('rows :: ', rows);
   }
 });
 
