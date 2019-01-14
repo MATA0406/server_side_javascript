@@ -15,12 +15,69 @@ javascript와 node.js를 이용하여 웹어플리케이션을 만드는 학습
 5. 동기/비동기(fs를 이용한 동기/비동기 학습)
 6. Express 도입(웹 프레임워크) - npm install express --save
  => 라우터라고하며(Java의 Servlet같은 존재)
+~~~
+// express 모듈을 불러온다.
+var express = require('express');
+
+// 어플리케이션 객체 생성
+var app = express();
+~~~
+ 
 7. body-parser 모듈(POST로 전송한 데이터를 서버에서 전달받을 수 있게 해주는 모듈)
+~~~
+// body-parser 모듈을 불러온다.
+var bodyParser = require('body-parser');
+
+// body-parser를 사용한다.
+app.use(bodyParser.urlencoded({ extended: false }));
+~~~
+
 8. Path를 배열로 정의할 수 있다.
+~~~
+ex) app.get(['/topic/:id/edit'], function(req, res){}
+~~~
+
 9. multer 모듈(파일 업로드를 가능하도록 해주는 모듈)
+~~~
+// 파일 업로드를 가능하도록 해주는 모듈
+var multer = require('multer');
+
+var _storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'uploads/')
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.originalname)
+  }
+});
+
+var upload = multer({storage:_storage});
+~~~
+
 10. mysql 모듈(mysql을 접속하도록 해주는 모듈) - host, user, password, database 입력
+~~~
+// mysql 접속
+var mysql = require('mysql');
+
+var conn = mysql.createConnection({
+  host     : 'localhost',
+  user     : 'root',
+  password : '111111',
+  database : 'o2'
+});
+
+// 연결
+conn.connect();
+~~~
+
 11. cookie-parser 모듈(쿠키 설정)
-- 키값을 이용한 암호화 (req.signedCookies.cart) / res => {signed:true}
+~~~
+var cookieParser = require('cookie-parser')
+
+// cookie 모듈 사용(키값 - 암호화)
+app.use(cookieParser('1412534sdf23r'));
+~~~
+
 12. express-session 모듈(Session 사용)
 // Session 셋팅
 ~~~
