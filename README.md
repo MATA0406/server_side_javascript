@@ -27,4 +27,4 @@ javascript와 node.js를 이용하여 웹어플리케이션을 만드는 학습
   secret: '123kljhk212334123gkjhg', // 암호화 키
   resave: false,  // 세션 아이디를 접속할때마다 새롭게 발급하지 않는다.
   saveUninitialized: true // 세션을 사용하기 전까지는 발급하지 말아라.
-}));
+}));    
