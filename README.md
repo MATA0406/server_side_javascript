@@ -7,7 +7,7 @@ javascript와 node.js를 이용하여 웹어플리케이션을 만드는 학습
 하나의 언어로 웹어플리케이션 전체를 구현할 수 있다.
 
 
-1. node.js 설치
+###1. node.js 설치
 2. Atom
 3. 모듈과 npm
 4. 콜백(underscore를 사용한 배열의 원소 리턴)
