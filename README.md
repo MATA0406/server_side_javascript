@@ -32,12 +32,12 @@ var bodyParser = require('body-parser');
 // body-parser를 사용한다.
 app.use(bodyParser.urlencoded({ extended: false }));
 ~~~
-
+----------------------------------------------------------------------------------
 8. Path를 배열로 정의할 수 있다.
 ~~~
 ex) app.get(['/topic/:id/edit'], function(req, res){}
 ~~~
-
+----------------------------------------------------------------------------------
 9. multer 모듈(파일 업로드를 가능하도록 해주는 모듈)
 ~~~
 // 파일 업로드를 가능하도록 해주는 모듈
@@ -54,7 +54,7 @@ var _storage = multer.diskStorage({
 
 var upload = multer({storage:_storage});
 ~~~
-
+----------------------------------------------------------------------------------
 10. mysql 모듈(mysql을 접속하도록 해주는 모듈) - host, user, password, database 입력
 ~~~
 // mysql 접속
@@ -70,7 +70,7 @@ var conn = mysql.createConnection({
 // 연결
 conn.connect();
 ~~~
-
+----------------------------------------------------------------------------------
 11. cookie-parser 모듈(쿠키 설정)
 ~~~
 var cookieParser = require('cookie-parser')
@@ -78,7 +78,7 @@ var cookieParser = require('cookie-parser')
 // cookie 모듈 사용(키값 - 암호화)
 app.use(cookieParser('1412534sdf23r'));
 ~~~
-
+----------------------------------------------------------------------------------
 12. express-session 모듈(Session 사용)
 // Session 셋팅
 ~~~
@@ -90,3 +90,4 @@ app.use(session({
   saveUninitialized: true // 세션을 사용하기 전까지는 발급하지 말아라.
 }));
 ~~~
+----------------------------------------------------------------------------------
