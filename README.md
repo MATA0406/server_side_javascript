@@ -8,12 +8,12 @@ javascript와 node.js를 이용하여 웹어플리케이션을 만드는 학습
 
 
 ### 1. node.js 설치
-2. Atom
-3. 모듈과 npm
-4. 콜백(underscore를 사용한 배열의 원소 리턴)
-5. 동기/비동기(fs를 이용한 동기/비동기 학습)
+### 2. Atom
+### 3. 모듈과 npm
+### 4. 콜백(underscore를 사용한 배열의 원소 리턴)
+### 5. 동기/비동기(fs를 이용한 동기/비동기 학습)
 ----------------------------------------------------------------------------------
-6. Express 도입(웹 프레임워크) - npm install express --save
+### 6. Express 도입(웹 프레임워크) - npm install express --save
  => 라우터라고하며(Java의 Servlet같은 존재)
 ~~~js
 // express 모듈을 불러온다.
@@ -23,8 +23,8 @@ var express = require('express');
 var app = express();
 ~~~
 ----------------------------------------------------------------------------------
-7. body-parser 모듈(POST로 전송한 데이터를 서버에서 전달받을 수 있게 해주는 모듈)
-~~~
+### 7. body-parser 모듈(POST로 전송한 데이터를 서버에서 전달받을 수 있게 해주는 모듈)
+~~~js
 // body-parser 모듈을 불러온다.
 var bodyParser = require('body-parser');
 
@@ -32,13 +32,13 @@ var bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: false }));
 ~~~
 ----------------------------------------------------------------------------------
-8. Path를 배열로 정의할 수 있다.
-~~~
+### 8. Path를 배열로 정의할 수 있다.
+~~~js
 ex) app.get(['/topic/:id/edit'], function(req, res){}
 ~~~
 ----------------------------------------------------------------------------------
-9. multer 모듈(파일 업로드를 가능하도록 해주는 모듈)
-~~~
+### 9. multer 모듈(파일 업로드를 가능하도록 해주는 모듈)
+~~~js
 // 파일 업로드를 가능하도록 해주는 모듈
 var multer = require('multer');
 
@@ -54,8 +54,8 @@ var _storage = multer.diskStorage({
 var upload = multer({storage:_storage});
 ~~~
 ----------------------------------------------------------------------------------
-10. mysql 모듈(mysql을 접속하도록 해주는 모듈) - host, user, password, database 입력
-~~~
+### 10. mysql 모듈(mysql을 접속하도록 해주는 모듈) - host, user, password, database 입력
+~~~js
 // mysql 접속
 var mysql = require('mysql');
 
@@ -70,17 +70,17 @@ var conn = mysql.createConnection({
 conn.connect();
 ~~~
 ----------------------------------------------------------------------------------
-11. cookie-parser 모듈(쿠키 설정)
-~~~
+### 11. cookie-parser 모듈(쿠키 설정)
+~~~js
 var cookieParser = require('cookie-parser')
 
 // cookie 모듈 사용(키값 - 암호화)
 app.use(cookieParser('1412534sdf23r'));
 ~~~
 ----------------------------------------------------------------------------------
-12. express-session 모듈(Session 사용)
+### 12. express-session 모듈(Session 사용)
 - // session-file-store(File 세션)
-~~~
+~~~js
 var session = require('express-session');
 var FileStore = require('session-file-store')(session); // 인자로 세션을 전달
 
@@ -93,7 +93,7 @@ app.use(session({
 ~~~
 
 - // express-mysql-session(MySQL 세션)
-~~~
+~~~js
 var session = require('express-session');
 var MySQLStore = require('express-mysql-session')(session);
 
