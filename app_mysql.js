@@ -25,7 +25,8 @@ var upload = multer({storage:_storage});
 var fs = require('fs');
 
 // mysql 접속
-var mysql      = require('mysql');
+var mysql = require('mysql');
+
 var conn = mysql.createConnection({
   host     : 'localhost',
   user     : 'root',

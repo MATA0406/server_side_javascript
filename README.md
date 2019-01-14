@@ -61,8 +61,8 @@ var mysql = require('mysql');
 
 var conn = mysql.createConnection({
   host     : 'localhost',
-  user     : 'root',
-  password : '111111',
+  user     : 'id',
+  password : 'pass',
   database : 'o2'
 });
 
@@ -79,14 +79,37 @@ app.use(cookieParser('1412534sdf23r'));
 ~~~
 ----------------------------------------------------------------------------------
 12. express-session 모듈(Session 사용)
-// Session 셋팅
+- // session-file-store(File 세션)
 ~~~
 var session = require('express-session');
+var FileStore = require('session-file-store')(session); // 인자로 세션을 전달
 
 app.use(session({
   secret: '123kljhk212334123gkjhg', // 암호화 키
   resave: false,  // 세션 아이디를 접속할때마다 새롭게 발급하지 않는다.
-  saveUninitialized: true // 세션을 사용하기 전까지는 발급하지 말아라.
+  saveUninitialized: true, // 세션을 사용하기 전까지는 발급하지 말아라.
+  store: new FileStore({path:'/sessions/'}) // sessions 디렉토리 경로를 설정
+}));
+~~~
+
+- // express-mysql-session(MySQL 세션)
+~~~
+var session = require('express-session');
+var MySQLStore = require('express-mysql-session')(session);
+
+// Session 셋팅
+app.use(session({
+  secret: '123kljhk212334123gkjhg', // 암호화 키
+  resave: false,  // 세션 아이디를 접속할때마다 새롭게 발급하지 않는다.
+  saveUninitialized: true, // 세션을 사용하기 전까지는 발급하지 말아라.
+    // sessions 디렉토리 경로를 설정
+  store: new MySQLStore({
+    host: 'localhost',
+    port: 3306,
+    user: 'id',
+    password: 'pass',
+    database: 'o2'
+  })
 }));
 ~~~
 ----------------------------------------------------------------------------------
