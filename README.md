@@ -1,10 +1,10 @@
 # javascript / node.js / Server / Atom
 
-javascript와 node.js를 이용하여 웹어플리케이션을 만드는 학습
+`javascript와 node.js를 이용하여 웹어플리케이션을 만드는 학습
 
 웹브라우저에서 동작하는 자바스크립트를 이용해서 PHP나 JSP의 역할을 대체할 수 있다.
 
-하나의 언어로 웹어플리케이션 전체를 구현할 수 있다.
+하나의 언어로 웹어플리케이션 전체를 구현할 수 있다.`
 
 
 ### 1. node.js 설치
