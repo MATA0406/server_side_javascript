@@ -19,3 +19,5 @@ javascript와 node.js를 이용하여 웹어플리케이션을 만드는 학습
 8. Path를 배열로 정의할 수 있다.
 9. multer 모듈(파일 업로드를 가능하도록 해주는 모듈)
 10. mysql 모듈(mysql을 접속하도록 해주는 모듈) - host, user, password, database 입력
+11. cookie-parser 모듈(쿠키 설정)
+- 키값을 이용한 암호화 (req.signedCookies.cart) / res => {signed:true}
