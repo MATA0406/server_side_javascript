@@ -6,6 +6,8 @@ var bodyParser = require('body-parser');
 var bkfd2Password = require("pbkdf2-password"); // 대표적인 암호화 방법
 var passport = require('passport')
 var LocalStrategy = require('passport-local').Strategy;
+var FacebookStrategy = require('passport-facebook').Strategy; // 페이스북 타사 인증 모듈
+
 
 var hasher = bkfd2Password(); // 암호화 호출
 
@@ -38,6 +40,7 @@ app.get('/auth/login', function(req, res){
         <input type="submit">
       </p>
     </form>
+    <a href="/auth/facebook">facebook</a>
   `;
 
   res.send(output);
@@ -105,6 +108,7 @@ app.get('/auth/register', function(req, res){
 
 var users = [
   {
+    authId: 'local:mata',
     username : 'mata',
     password : 'JK/5SPoPZf7Y+d7G87stJqfLHAuJ9tiVfhhQc9SoTSMaYu2DdF95UC72Cdr7oDrHm2kNY17jmnQuXTt9orzen6sXJ0BeupgCLXFgSy4NH7uCoej+m+u0FM9LLW9E5evkt3lje6PV1TaJc/RNsjjebMybjpgbCmdkrlSQJ+BMt+M=',
     salt: 'Ayg9yWlauGsjORAMXEQUxDg/iWBzt6XJQGC18DRSK8bklxBx3RiFC6hhQx3bd2S+U4PmLTEJUkLlaURo1ntVEQ==',
@@ -116,6 +120,7 @@ var users = [
 app.post('/auth/register', function(req, res){
   hasher({password:req.body.password}, function(err, pass, salt, hash){
     var user = {
+      authId: 'local:'+req.body.username,
       username: req.body.username,
       password: hash,
       salt: salt,
@@ -142,7 +147,7 @@ app.post('/auth/register', function(req, res){
 // 로그인 성공 시 콜백 함수 - done()함수의 두번째 인자를 user에 받는다
 passport.serializeUser(function(user, done) {
   console.log('serializeUser:: ', user);
-  return done(null, user.username);
+  return done(null, user.authId);
 });
 
 // 다시 접속했을때 이 함수만 호출한다.(세션에 유저 식별자로 구별)
@@ -151,14 +156,16 @@ passport.deserializeUser(function(id, done) {
   // 유저의 수만큼
   for(var i=0; i<users.length; i++){
     var user = users[i];
-    if(user.username === id){
+    if(user.authId === id){
       return done(null, user);
     }
   }
+
+  done('There is no user');
 });
 
 
-// 로컬 전략
+// 로컬 전략 등록
 passport.use(new LocalStrategy(
   function(username, password, done){
     // 브라우저에서 입력한 사용자 정보
@@ -189,6 +196,42 @@ passport.use(new LocalStrategy(
   }
 ));
 
+// 페이스북 전략 등록
+passport.use(new FacebookStrategy({
+    clientID: 308995523080030,
+    clientSecret: '7eeca6579fede6fd3dffddf80302f751',
+    callbackURL: "/auth/facebook/callback",
+    profileFields:['id', 'email', 'gender', 'link', 'locale',
+      'name', 'timezone', 'updated_time', 'verified', 'displayName']
+  },
+  function(accessToken, refreshToken, profile, done) {
+    console.log('profile :: ', profile);
+    var authId = 'facebook:'+profile.id;
+
+    for(var i=0; i<users.length; i++){
+      var user = users[i];
+      // 동일한 유저가 있을시
+      if(user.authId === authId){
+         return done(null, user);
+      }
+    }
+
+    var newuser = {
+      'authId':authId,
+      'displayName':profile.displayName,
+      'email':profile.emails[0].value
+    };
+
+    users.push(newuser);
+
+    done(null, newuser);
+    // User.findOrCreate({ facebookId: profile.id }, function (err, user) {
+    //   return cb(err, user);
+    // });
+  }
+));
+
+// 로컬 로그인 라우트
 app.post(
   '/auth/login',
   passport.authenticate(
@@ -205,6 +248,31 @@ app.post(
     })
   }
 );
+
+// 페이스북 전략
+app.get(
+  '/auth/facebook',
+  passport.authenticate(
+    'facebook',
+    {scope:'email'}
+  )
+);
+app.get(
+  '/auth/facebook/callback',
+  passport.authenticate(
+    'facebook',
+    {
+      failureRedirect: '/auth/login'
+    }
+  ),
+  function(req, res) {
+    // Successful authentication, redirect home.
+    req.session.save(function(){
+      res.redirect('/welcome');
+    })
+  }
+);
+
 
 // 로그인 처리
 // app.post('/auth/login', function(req, res){
