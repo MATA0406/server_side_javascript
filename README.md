@@ -9,13 +9,17 @@ javascript와 node.js를 이용하여 웹어플리케이션을 만드는 학습
 ***
 
 ### 1. node.js 설치
+- <https://nodejs.org/>
 ### 2. Atom
+- <https://atom.io/>
 ### 3. 모듈과 npm
+- <https://www.npmjs.com/>
 ### 4. 콜백(underscore를 사용한 배열의 원소 리턴)
 ### 5. 동기/비동기(fs를 이용한 동기/비동기 학습)
 ----------------------------------------------------------------------------------
-### 6. Express 도입(웹 프레임워크) - npm install express --save
- => 라우터라고하며(Java의 Servlet같은 존재)
+### 6. Express 도입(웹 프레임워크) => 라우터라고하며(Java의 Servlet같은 존재)
+- <http://expressjs.com/>
+- npm install express --save
 ~~~js
 // express 모듈을 불러온다.
 var express = require('express');
