@@ -148,8 +148,9 @@ hasher(opts, function(err, pass, salt, hash) {
 });
 ~~~
 ----------------------------------------------------------------------------------
-### 14. passport
+### 14. passport => 인증을 쉽게 구현할 수 있도록 고안된 인증(결과적으로!!)
 - passportjs
+- 자세한 정보: <http://www.passportjs.org/>
 ~~~js
 var passport = require('passport')
 var LocalStrategy = require('passport-local').Strategy; // 로컬 전략
