@@ -2,6 +2,11 @@ var express = require('express');
 var session = require('express-session');
 var FileStore = require('session-file-store')(session); // 인자로 세션을 전달
 var bodyParser = require('body-parser');
+// var md5 = require('md5'); // 암호화
+// var sha256 = require('sha256'); // 암호화(단방향 해쉬)
+// 암호화 할 수 있는 기능을 가지고 있는 해시 함수
+var bkfd2Password = require("pbkdf2-password"); // 대표적인 암호화 방법
+var hasher = bkfd2Password(); // 암호화 호출
 
 var app = express();
 app.use(bodyParser.urlencoded({ extended: false}));
@@ -38,7 +43,8 @@ app.get('/auth/login', function(req, res){
 
 // 로그아웃
 app.get('/auth/logout', function(req, res){
-  delete req.session.displayName; // 삭제
+  //delete req.session.displayName; // 삭제
+  req.session.destroy(); // 세션의 정보 삭제
   res.redirect('/welcome');
 });
 
@@ -88,28 +94,37 @@ app.get('/auth/register', function(req, res){
   res.send(output);
 })
 
+// 보안에서는 '소금을 친다.'
+// var salt = '2!@%!@#%sdgfasdg!@'
 
 var users = [
   {
     username : 'mata',
-    password : '111',
+    password : 'JK/5SPoPZf7Y+d7G87stJqfLHAuJ9tiVfhhQc9SoTSMaYu2DdF95UC72Cdr7oDrHm2kNY17jmnQuXTt9orzen6sXJ0BeupgCLXFgSy4NH7uCoej+m+u0FM9LLW9E5evkt3lje6PV1TaJc/RNsjjebMybjpgbCmdkrlSQJ+BMt+M=',
+    salt: 'Ayg9yWlauGsjORAMXEQUxDg/iWBzt6XJQGC18DRSK8bklxBx3RiFC6hhQx3bd2S+U4PmLTEJUkLlaURo1ntVEQ==',
     displayName : 'MATA'
   }
 ];
 
 // 회원가입 처리
 app.post('/auth/register', function(req, res){
-  var user = {
-    username: req.body.username,
-    password: req.body.password,
-    displayName: req.body.displayName
-  };
+  hasher({password:req.body.password}, function(err, pass, salt, hash){
+    var user = {
+      username: req.body.username,
+      password: hash,
+      salt: salt,
+      displayName: req.body.displayName
+    };
 
-  users.push(user);
+    // 유저 추가
+    users.push(user);
 
-  req.session.displayName = req.body.displayName;
-  req.session.save(function(){
-    res.redirect('/welcome');
+    // 세션에 사용자 이름 저장
+    req.session.displayName = req.body.displayName;
+    // 저장이 끝나면 리다이렉트
+    req.session.save(function(){
+      res.redirect('/welcome');
+    });
   });
 });
 
@@ -131,21 +146,34 @@ app.post('/auth/login', function(req, res){
   for(var i=0; i<users.length; i++){
     var user = users[i];
 
-    // 아이디, 비밀번호 일치
-    if(uname === user.username && pwd === user.password){
-      req.session.displayName = user.displayName;
-
-      // 세션 값이 셋팅이 완전히 끝나면 부르는 콜백
-      return req.session.save(function(){
-        // return을 줘야 바로 리다이렉션
-        res.redirect('/welcome');
+    if(uname === user.username){
+      return hasher({password:pwd, salt:user.salt}, function(err, pass, salt, hash){
+        // hash와 서버에 저장되어 있는 유저의 비밀번호를 비교 일치
+        if(hash === user.password){
+          req.session.displayName = user.displayName
+          req.session.save(function(){
+            res.redirect('/welcome');
+          });
+        }
+        //불일치
+        else{
+          res.send('Who are you? <a href="/auth/login">login</a>');
+        }
       });
     }
-  }
 
-  // 불일치
-  res.send('Who are you? <a href="/auth/login">login</a>');
-  });
+    // 아이디, 비밀번호 일치
+    // if(uname === user.username && sha256(pwd+user.salt) === user.password){
+    //   req.session.displayName = user.displayName;
+    //
+    //   // 세션 값이 셋팅이 완전히 끝나면 부르는 콜백
+    //   return req.session.save(function(){
+    //     // return을 줘야 바로 리다이렉션
+    //     res.redirect('/welcome');
+    //   });
+    // }
+  }
+});
 
 
 app.get('/count', function(req, res){

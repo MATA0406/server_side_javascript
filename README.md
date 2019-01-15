@@ -114,3 +114,32 @@ app.use(session({
 }));
 ~~~
 ----------------------------------------------------------------------------------
+### 13. 비밀번호 보안(md5 -> sha256 -> pbkdf2) => 단방향 해쉬 함수
+- md5
+~~~js
+var md5 = require('md5');
+~~~
+- sha256
+~~~js
+var sha256 = require('sha256');
+~~~
+- pbkdf2
+- 기존의 패스워드 값과 새로운 패스워드 값을 비교하는 방식이 아닌 반환하는 해쉬 값에 의하여 콜백되는 해쉬 값과 패스워드를 비교하는 코드
+~~~js
+var bkfd2Password = require("pbkdf2-password"); // 대표적인 암호화 방법
+var hasher = bkfd2Password(); // 암호화 호출
+
+hasher(opts, function(err, pass, salt, hash) {
+  opts.salt = salt;
+  hasher(opts, function(err, pass, salt, hash2) {
+    assert.deepEqual(hash2, hash);
+
+    // password mismatch
+    opts.password = "aaa";
+    hasher(opts, function(err, pass, salt, hash2) {
+      assert.notDeepEqual(hash2, hash);
+      console.log("OK");
+    });
+  });
+});
+~~~
