@@ -248,3 +248,39 @@ var cal = require('./lib/calculator');
 console.log('cal sum:: ', cal.sum(1, 2));
 console.log('cal avg:: ', cal.avg(1, 2));
 ~~~
+----------------------------------------------------------------------------------
+### 18. Router를 사용하여 route를 분리할 수 있다.
+- app.js 안에 있던 많은 라우트를 분할하여 좀 더 쉽게 관리할 수 있다.
+- app.js
+~~~js
+// p1.js를 불러온다. - p1.js로 app을 전달해줄 수 있다.
+var p1 = require('./routes/p1')(app);
+
+// p2.js를 불러온다. - p2.js로 app을 전달해줄 수 있다.
+var p2 = require('./routes/p2')(app);
+
+// /p1으로 들어오는 모든 접속은 router에게 위임한다.
+app.use('/p1', p1);
+
+app.use('/p2', p2);
+~~~
+
+- p1.js(app을 전달받아 직접 사용할 수 있다.)
+~~~js
+module.exports = function(app){
+  var express = require('express');
+
+  // 라우터 생성
+  var route = express.Router();
+
+  route.get('/r1', function(req, res){
+    res.send('Hello /p1/r1');
+  });
+
+  route.get('/r2', function(req, res){
+    res.send('Hello /p1/r2');
+  });
+
+  return route;
+};
+~~~
