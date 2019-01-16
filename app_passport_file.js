@@ -199,7 +199,7 @@ passport.use(new LocalStrategy(
 // 페이스북 전략 등록
 passport.use(new FacebookStrategy({
     clientID: 308995523080030,
-    clientSecret: '비밀', // 아무한테도 알려주면 안됨!! 깃허브에서 메일 날라옴.
+    clientSecret: '7eeca6579fede6fd3dffddf80302f751', // 아무한테도 알려주면 안됨!! 깃허브에서 메일 날라옴.
     callbackURL: "/auth/facebook/callback",
     profileFields:['id', 'email', 'gender', 'link', 'locale',
       'name', 'timezone', 'updated_time', 'verified', 'displayName']
