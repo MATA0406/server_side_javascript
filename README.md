@@ -229,3 +229,22 @@ passport.deserializeUser(function(id, done) {
 
 ----------------------------------------------------------------------------------
 ### 16. MySQL을 이용한 회원가입, 로그인, Session store, Passport(타사인증: 페이스북)
+----------------------------------------------------------------------------------
+### 17. 사용자 정의 모듈 만들기
+- 중복되는 코드를 모듈로 정의하여 사용자가 원할 때 사용할 수 있는 방법
+-calculator.js
+~~~js
+module.exports.sum = function(a, b){
+  return a+b;
+}
+
+module.exports.avg = function(a, b){
+  return (a+b)/2;
+}
+~~~
+-server.js
+~~~js
+var cal = require('./lib/calculator');
+console.log('cal sum:: ', cal.sum(1, 2));
+console.log('cal avg:: ', cal.avg(1, 2));
+~~~
