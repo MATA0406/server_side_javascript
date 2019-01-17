@@ -1,0 +1,21 @@
+doctype html
+html
+  head
+    meta(charset='utf-8')
+  body
+    ul#accout
+      if user
+        li
+          a(href='/auth/logout') Logout
+      else
+        li
+          a(href='/auth/login') Login
+        li
+          a(href='/auth/register') Register
+    h1
+      a(href='/topic') Server Side JavaScript
+    ul
+      each topic in topics
+        li
+          a(href='/topic/'+topic.id)= topic.title
+    block content
