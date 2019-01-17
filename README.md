@@ -1,4 +1,6 @@
-# javascript / node.js / Server / Atom
+# Node.JS를 이용한 Server Side JavaScript
+
+> javascript / node.js / Server / Atom
 
 > javascript와 node.js를 이용하여 웹어플리케이션을 만드는 학습
 
