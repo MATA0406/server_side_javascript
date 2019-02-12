@@ -291,3 +291,4 @@ module.exports = function(app){
 - app.js / route / views / config를 분리하여 로그인, 회원가입, Passport를 이용한 사용자 인증, 글작성을 할 수 있는 웹 어플리케이션 완료
 - app.js 순서: 모듈 => 설정 => 미들웨어 사용
 - 출처: 생활코딩 => 서버 => nodejs <https://opentutorials.org/course/669/>
+# VS Code
